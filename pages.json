@@ -1,0 +1,781 @@
+{
+    "globalStyle" : {
+        "navigationBarTitleText" : " "
+    },
+    "tabBar" : {
+        "color" : "#7A7E83",
+        "selectedColor" : "#6881FF",
+        "borderStyle" : "black",
+        "backgroundColor" : "#ffffff",
+        "list" : [
+            {
+                "pagePath" : "pages/quotation/main",
+                "iconPath" : "static/icon/hangqing.png",
+                "selectedIconPath" : "static/icon/hangqing2.png",
+                "text" : "行情"
+            },
+            {
+                "pagePath" : "pages/trade/main",
+                "iconPath" : "static/icon/bibi.png",
+                "selectedIconPath" : "static/icon/bibi2.png",
+                "text" : "币币"
+            },
+            // {
+            //     "pagePath" : "pages/c2c/index",
+            //     "iconPath" : "static/icon/C2C.png",
+            //     "selectedIconPath" : "static/icon/C2C2.png",
+            //     "text" : "C2C "
+            // },
+			{
+			    "pagePath" : "pages/contract/index",
+			    "iconPath" : "static/icon/C2C.png",
+			    "selectedIconPath" : "static/icon/C2C2.png",
+			    "text" : "合约 "
+			},
+            {
+                "pagePath" : "pages/c2c/addPaymentType",
+                "iconPath" : "static/icon/zichan.png",
+                "selectedIconPath" : "static/icon/zichan2.png",
+                "text" : "资产"
+            },
+            {
+                "pagePath" : "pages/mein/index",
+                "iconPath" : "static/icon/wode.png",
+                "selectedIconPath" : "static/icon/wode2.png",
+                "text" : "我的"
+            }
+        ]
+    },
+    "pages" : [ 
+        {
+            "path" : "pages/quotation/main",
+            "style" : {
+                "navigationStyle" : "custom",
+                "navigationBarTextStyle" : "black",
+                "app-plus" : {
+                    "titleNView" : false
+                }
+            }
+        },
+		{
+		    "path" : "pages/contract/index",
+		    "style" : {
+		        "navigationStyle" : "custom",
+		        "navigationBarTextStyle" : "black",
+				 "navigationBarTitleText" : "合约"
+		        
+		    }
+		},
+        {
+            "path" : "pages/trade/main",
+            "style" : {
+                "navigationStyle" : "custom",
+                "navigationBarTextStyle" : "black",
+                "app-plus" : {
+                    "titleNView" : false
+                }
+            }
+        },
+        {
+            "path" : "pages/home/main",
+            "style" : {
+                "navigationBarTitleText" : "首页",
+                "app-plus" : {
+                    "titleNView" : {
+                        "tags" : [
+                            {
+                                "tag" : "img",
+                                "src" : "/static/img/home-icon.png",
+                                "position" : {
+                                    "left" : "10px",
+                                    "top" : "8px",
+                                    "width" : "26px",
+                                    "height" : "26px"
+                                }
+                            }
+                        ],
+                        "buttons" : [
+                            {
+                                "text" : "",
+                                "fontSize" : "15px",
+                                "float" : "left"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "path" : "pages/trade/kline/main",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/assets/main",
+            "style" : {
+                "navigationBarTitleText" : "币币资产"
+            }
+        },
+        {
+            "path" : "pages/assets/detail/main",
+            "style" : {
+                "navigationBarTitleText" : "资产详情"
+            }
+        },
+        {
+            "path" : "pages/reg/reg",
+            "style" : {
+                "navigationBarTitleText" : "注册"
+            }
+        },
+        {
+            "path" : "pages/pwd/pwd",
+            "style" : {
+                "navigationBarTitleText" : "找回密码"
+            }
+        },
+        {
+            "path" : "pages/ucenter/setting/main",
+            "style" : {
+                "navigationBarTitleText" : "设置"
+            }
+        },
+        {
+            "path" : "pages/ucenter/order/main",
+            "style" : {
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "navigationBarTextStyle" : "black",
+                "navigationBarTitleText" : "委托单",
+                "enablePullDownRefresh" : false
+            }
+        },
+        {
+            "path" : "pages/trade/entrustOrder/entrustOrder",
+            "style" : {
+                "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/trade/entrustOrder/borrowing",
+            "style" : {
+                "navigationBarTitleText" : " ",
+                "backgroundColorTop" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "img",
+                            "src" : "/static/img/lishijilu-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "components/nav/nav",
+            "style" : {}
+        },
+        {
+            "path" : "pages/quotation/search",
+            "style" : {
+                "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/c2c/index",
+            "style" : {
+                "navigationStyle" : "custom",
+                "navigationBarTextStyle" : "white"
+            }
+        },
+		
+        {
+            "path" : "components/statusBar/statusBar",
+            "style" : {}
+        },
+        {
+            "path" : "pages/c2c/order",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/c2c/pay",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/c2c/addPaymentType",
+            "style" : {
+                "navigationBarBackgroundColor" : "white",
+                "navigationBarTextStyle" : "black",
+                "navigationBarTitleText" : "资金账户"
+				
+            }
+        },
+        {
+            "path" : "pages/c2c/addcart",
+            "style" : {
+                "navigationBarBackgroundColor" : "white",
+                "navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/c2c/addpay",
+            "style" : {
+                "navigationBarBackgroundColor" : "white",
+                "navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/mein/editPassword",
+            "style" : {
+                "navigationBarBackgroundColor" : "white",
+                "navigationBarTextStyle" : "black",
+                "navigationBarTitleText" : " "
+            }
+        },
+        {
+            "path" : "pages/c2c/appeal",
+            "style" : {
+                "navigationBarBackgroundColor" : "white",
+                "navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/mein/payment/index",
+            "style" : {
+                "navigationBarBackgroundColor" : "white",
+                "navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/c2c/appealResult",
+            "style" : {
+                "navigationBarBackgroundColor" : "white",
+                "navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/mein/index",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/coin/in/index",
+            "style" : {
+                "navigationStyle" : "custom",
+				 "navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/auth/register",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/coin/selectCoin",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/c2c/userInfo",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/coin/out/index",
+            "style" : {
+                "navigationStyle" : "custom",
+                "navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/coin/out/results",
+            "style" : {
+                "navigationBarTitleText" : "结果详情",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/coin/order",
+            "style" : {
+                "navigationStyle" : "custom",
+                "enablePullDownRefresh" : true ,//下拉刷新
+				"navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/coin/orderDetail",
+            "style" : {
+                "navigationStyle" : "custom",
+				"app-plus" : {
+				    "titleNView" : true
+				}
+            }
+        },
+        {
+            "path" : "pages/coin/transfer/index",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/mein/account/safety",
+            "style" : {
+                "navigationBarTitleText" : "账户安全",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF"
+            }
+        },
+        {
+            "path" : "pages/mein/account/editAssertPass",
+            "style" : {
+                "navigationBarTitleText" : "修改资金密码",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF"
+            }
+        },
+        {
+            "path" : "pages/mein/certification/index",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/mein/certification/submit",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/mein/invite",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/auth/login",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/c2c/evaluation/index",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/c2c/evaluation/result",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/c2c/ad/index",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/c2c/financial/financial",
+            "style" : {
+                "navigationBarTitleText" : "财务记录",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "addCountrysClass" : true,
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/quotation/message",
+            "style" : {
+                "navigationBarTitleText" : "消息",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/quotation/notice/notice",
+            "style" : {
+                "navigationBarTitleText" : "通知",
+                "navigationBarBackgroundColor" : "#6881FF",
+                "enablePullDownRefresh" : true, 
+				"onReachBottomDistance": 100,
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/more-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/quotation/notice/announcement",
+            "style" : {
+                "navigationBarTitleText" : "公告",
+                "navigationBarBackgroundColor" : "#6881FF",
+                "enablePullDownRefresh" : true,
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/more-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/quotation/notice/activity",
+            "style" : {
+                "navigationBarTitleText" : "活动",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+				"enablePullDownRefresh" : true, 
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/quotation/notice/details",
+            "style" : {
+                "navigationBarTitleText" : "公告详情",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/auth/findPass",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/auth/restPass",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/auth/country",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/mein/account/setAssterPass",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/mein/account/bindMobile",
+            "style" : {
+                "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/mein/account/editPass",
+            "style" : {
+                "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/mein/account/bindEmail",
+            "style" : {
+                "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black"
+            }
+        },
+        {
+            "path" : "pages/mein/Setupthe",
+            "style" : {
+                "navigationBarTitleText" : "设置",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/mein/peoplesId",
+            "style" : {
+                "navigationBarTitleText" : "计价方式",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/mein/marketId",
+            "style" : {
+                "navigationBarTitleText" : "行情刷新频率",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "path" : "pages/mein/fallId",
+            "style" : {
+                "navigationBarTitleText" : "涨跌色",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+		{
+		    "path" : "pages/mein/language",
+		    "style" : {
+		        "navigationBarTitleText" : "语言",
+		        "navigationBarTextStyle" : "black",
+		        "navigationBarBackgroundColor" : "#FFFFFF",
+		        "titleNView" : {
+		            "tags" : [
+		                {
+		                    "tag" : "static/img/back-icon.png",
+		                    "position" : {
+		                        "right" : "10px",
+		                        "top" : "18px",
+		                        "width" : "19px",
+		                        "height" : "16px"
+		                    }
+		                }
+		            ]
+		        }
+		    }
+		},
+        {
+            "path" : "pages/quotation/activity/index",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/quotation/activity/submit",
+           "style" : {
+           	 "navigationStyle" : "custom"
+           }
+        },
+		{
+		    "path" : "pages/quotation/activity/purchase",
+		    "style" : {
+				 "navigationBarTitleText":"申购成功",
+				 "navigationBarTextStyle":"black",
+				 "navigationBarBackgroundColor":"#FFF"
+			}
+		},
+		{
+		    "path" : "pages/quotation/activity/details",
+		    "style" : {
+				 "navigationStyle" : "custom"
+			}
+		},
+		{
+		    "path" : "pages/contract/Perpetual",
+		    "style" : {
+		        "navigationBarTitleText" : "永续合约账单",
+		        "navigationBarTextStyle" : "black",
+		        "navigationBarBackgroundColor" : "#FFFFFF",
+		        "titleNView" : {
+		            "tags" : [
+		                {
+		                    "tag" : "static/img/back-icon.png",
+		                    "position" : {
+		                        "right" : "10px",
+		                        "top" : "18px",
+		                        "width" : "19px",
+		                        "height" : "16px"
+		                    }
+		                }
+		            ]
+		        }
+		    }
+		},
+		{
+		    "path" : "pages/contract/commission",
+		    "style" : {
+		        "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black",
+				 "enablePullDownRefresh" : true 
+		    }
+		},
+		{
+		    "path" : "pages/contract/record",
+		    "style" : {
+		        "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black"
+		    }
+		},
+		{
+		    "path" : "pages/coin/new_file",
+		    "style" : {
+		        "navigationStyle" : "custom",
+				"navigationBarTextStyle" : "black"
+		    }
+		}
+		
+		
+        ,{
+            "path" : "pages/coin/in/Results",
+            "style" : {
+                "navigationBarTitleText" : "结果详情",
+                "navigationBarTextStyle" : "black",
+                "navigationBarBackgroundColor" : "#FFFFFF",
+                "titleNView" : {
+                    "tags" : [
+                        {
+                            "tag" : "static/img/back-icon.png",
+                            "position" : {
+                                "right" : "10px",
+                                "top" : "18px",
+                                "width" : "19px",
+                                "height" : "16px"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        
+    ]
+}

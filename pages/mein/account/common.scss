@@ -1,0 +1,67 @@
+.page-title{
+	font-size:34px;
+	font-family:PingFang-SC-Bold;
+	font-weight:bold;
+	color:rgba(45,47,86,1);
+	margin-left: 49upx;
+	margin-top: 44upx;
+	line-height: 34upx;
+	margin-bottom: 110upx;
+}
+.form{
+	padding: 0 48upx;
+	.input-cell{
+		margin-top: 71upx;
+		
+		.label{
+			display: flex;
+			align-items: center;
+			text{
+				font-size:26px;
+				font-family:PingFang-SC-Medium;
+				font-weight:500;
+				color:rgba(45,47,86,1);
+			}
+			margin-bottom: 20upx;
+		}
+		.input-contianers{
+			display: flex;
+			.input-wrapper{
+				padding-left: 62upx;
+				flex: 1;
+				border-bottom: 3px solid #F0F0FA;
+				padding-bottom: 5upx;
+			}
+			.button-submit{
+				margin: 0;
+				margin-left: 31upx;
+				button{
+					// width:181px;
+					min-width: 181upx;
+					padding: 0 15upx;
+					height:59px;
+					background:rgba(107,135,255,1);
+					border-radius:10px;
+					line-height: 59upx;
+					font-size:26px;
+					font-family:PingFang-SC-Medium;
+					font-weight:500;
+					color:rgba(255,255,255,1);
+				}
+			}
+		}
+		
+	}
+	.submit{
+		width:654px;
+		height:70px;
+		background:rgba(107,135,255,1);
+		border-radius:10px;
+		line-height: 70upx;
+		font-size:26px;
+		font-family:PingFang-SC-Medium;
+		font-weight:500;
+		color:rgba(255,255,255,1);
+		margin-top: 103upx;
+	}
+}

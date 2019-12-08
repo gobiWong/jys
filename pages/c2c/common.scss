@@ -1,0 +1,70 @@
+.from-tilte {
+	font-size: 38upx;
+	font-family: PingFang-SC-Bold;
+	font-weight: bold;
+	color: rgba(38, 37, 80, 1);
+	margin-left: 30upx;
+}
+
+.from {
+	padding: 0 30upx;
+
+	&>.input-cell:first-child {
+		label {
+			margin-top: 53upx;
+		}
+
+		input {
+			height: 90upx;
+			line-height: 90upx;
+			box-sizing: border-box;
+			border: 1px solid #E6E6E6;
+			border-radius: 10upx;
+			padding-left: 30upx;
+		}
+	}
+
+	.input-cell {
+		label {
+			font-size: 26upx;
+			font-family: PingFang-SC-Medium;
+			font-weight: 500;
+			color: rgba(140, 151, 157, 1);
+			margin-top: 41upx;
+			margin-bottom: 29upx;
+			display: inline-block;
+		}
+
+		input {
+			height: 90upx;
+			line-height: 90upx;
+			box-sizing: border-box;
+			border: 1px solid #E6E6E6;
+			border-radius: 10upx;
+			padding-left: 30upx;
+		}
+	}
+
+	.button-container {
+		margin-top: 60upx;
+		button {
+			background: linear-gradient(-90deg, rgba(197, 207, 213, 1), rgba(218, 228, 233, 1));
+			border-radius: 10upx;
+			font-size: 28upx;
+			font-family: PingFang-SC-Medium;
+			font-weight: 500;
+			color: rgba(255, 255, 255, 1);
+			border-radius: 10px;
+			height:80upx;
+			line-height: 80upx;
+			
+		}
+		button.undisable{
+			background: linear-gradient(-90deg, rgba(104, 129, 255, 1), rgba(115, 156, 255, 1));
+			
+		}
+
+	}
+
+	
+}

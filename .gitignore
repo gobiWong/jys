@@ -1,0 +1,10 @@
+#uni-app 项目忽略文件
+
+##vue
+node_modules
+
+##编辑器
+
+##uni-app
+unpackage
+

@@ -1,0 +1,75 @@
+.top {
+		background: linear-gradient(232deg, rgba(104, 129, 255, 1), rgba(115, 156, 255, 1));
+		height: 400px;
+
+		.head {
+			height: 96upx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 30upx;
+			font-size: 30px;
+			font-family: PingFang-SC-Medium;
+			font-weight: 500;
+			color: rgba(255, 255, 255, 1);
+
+			.back-icon {
+				width: 17px;
+				height: 30px;
+			}
+		}
+
+
+		.time-line-row {
+			margin-top: 30upx;
+			display: flex;
+			justify-content: space-between;
+			padding: 0 91upx;
+
+			&>view {
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				text {
+					font-size: 22px;
+					font-family: PingFang-SC-Regular;
+					font-weight: 400;
+					color: rgba(255, 255, 255, 1);
+					line-height: 22upx;
+					margin-top: 18upx;
+				}
+
+				view {
+					width: 42upx;
+					height: 42upx;
+					background-color: #FFF;
+					border-radius: 100%;
+					text-align: center;
+					line-height: 42upx;
+
+					images {
+
+						vertical-align: middle;
+					}
+				}
+			}
+
+			&>view:after {
+				content: ' ';
+				position: absolute;
+				height: 2px;
+				width: 132upx;
+				right: -134upx;
+				top: 21px;
+
+				background-color: #FFFFFF;
+
+			}
+
+			&>view:last-child::after {
+				content: initial;
+			}
+		}
+	}

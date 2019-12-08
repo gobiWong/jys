@@ -1,0 +1,1213 @@
+<html>
+	<head>
+		<title></title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script type="text/javascript" src="./lib/charting_library/charting_library.min.js"></script>
+		<script type="text/javascript" src="./lib/datafeeds/udf/dist/polyfills.js"></script>
+		<script type="text/javascript" src="./lib/datafeeds/udf/dist/bundle.js"></script>
+		<script src="./lib/jquery.js"></script>
+		<script src="./lib/echarts.min.js"></script>
+		<script type="text/javascript" src="./lib/datafeeds/datafeed.js"></script>
+		<script type="text/javascript">
+			function getParameterByName(name) {
+				name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+				var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+					results = regex.exec(location.search);
+				return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			}
+			var setStudy, unsetStudy, MACDEntityId, Wwidget;
+			var datafeed = new FeedBase();
+
+			TradingView.onready(function() { //初始化tradinview
+				var widget = new TradingView.widget({
+					fullscreen: false,
+					symbol: getParameterByName('symbol'),
+					interval: '15',
+					https: false,
+					width: '100%',
+					container_id: "tv_chart_container",
+					height: getParameterByName('height') / 1.9,
+					//	BEWARE: no trailing slash is expected in feed URL
+					datafeed: datafeed,
+					library_path: "./lib/charting_library/",
+					locale: getParameterByName('lang') || "zh",
+					disabled_features: ["use_localstorage_for_settings", "border_around_the_chart"],
+					preset: "mobile",
+					loading_screen: {
+						backgroundColor: "#1f2b34",
+						foregroundColor: "#0CB0FF"
+					},
+					overrides: {
+						"paneProperties.background": "#121E3E",
+						"paneProperties.vertGridProperties.color": "#454545",
+						"paneProperties.horzGridProperties.color": "#454545",
+						"symbolWatermarkProperties.transparency": 90,
+						"scalesProperties.textColor": "#AAA",
+						"paneProperties.legendProperties.showStudyTitles": false,
+						"paneProperties.legendProperties.showStudyArguments": false,
+						"paneProperties.legendProperties.showStudyValues": false,
+					}
+				});
+
+				Wwidget = widget;
+				widget.onChartReady(function() {
+					// interval
+					$('.secInterval').click(function() {
+						widget.chart().setChartType(3);
+						widget.chart().setResolution('1');
+						widget.chart().resetData();
+						var AllStudies = widget.chart().getAllStudies();
+
+						for (var i = 0; i < AllStudies.length - 1; i++) {
+							widget.chart().removeEntity(AllStudies[i].id);
+						}
+					})
+
+					$('.interval').click(function() {
+						widget.chart().setChartType(1);
+						var inter = $(this).attr('data-inter');
+						var text = $(this).html();
+						$('.interval-option').html(text)
+						$('.interval-option').attr('data-inter', inter)
+						widget.chart().setResolution(inter);
+						widget.chart().resetData();
+						$('.time-list').hide();
+						var AllStudies = widget.chart().getAllStudies();
+						if (AllStudies.length == 0) {
+							var maList = [5, 10, 30, 40];
+							for (var i = 0; i < maList.length; i++) {
+								widget.chart().createStudy('Moving average', false, false, [maList[i], "close", 0], function(entityId) {
+									entityId
+								});
+							}
+						}
+					})
+					// Studie
+					var AllStudies = widget.chart().getAllStudies();
+
+					widget.chart().clearMarks();
+					widget.chart().getStudyById(AllStudies[0].id).unmergeDown();
+					var maList = [5, 10, 30, 40];
+					for (var i = 0; i < maList.length; i++) {
+						widget.chart().createStudy('Moving average', false, false, [maList[i], "close", 0], function(entityId) {
+							entityId
+						});
+
+					}
+
+					setStudy = function() {
+						widget.chart().createStudy('MACD', false, false, [14, 30, "close", 9], function(entityId) {
+							MACDEntityId = entityId;
+						})
+					}
+
+					unsetStudy = function() {
+						widget.chart().removeEntity(MACDEntityId)
+					}
+				});
+			})
+
+
+			$(function() { //指标按钮点击
+				$("#changebox").change(function(e) {
+					var checked = $(this).prop("checked");
+					if (checked) {
+						setStudy()
+					} else {
+						unsetStudy()
+					}
+				});
+			})
+		</script>
+
+		<script src="./lib/hammer.min.js"></script>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				background: #121E3E;
+				margin: 0;
+				padding-bottom: 27px;
+			}
+
+			#head_container {
+				width: 100%;
+				overflow: hidden;
+			}
+
+			#head_container .l {
+				width: 50%;
+				padding-left: 10px;
+				float: left;
+			}
+
+			#head_container .l h3 {
+				margin: 0;
+				padding: 10px 0px 0px 0px;
+				font-size: 28px;
+			}
+
+			#head_container .l h5 {
+				padding: 5px 0px 10px 0px;
+				margin: 0;
+				color: #e5e5e5;
+				font-weight: normal;
+				font-size: 12px;
+			}
+
+			#head_container .l h5 .change {
+				font-style: normal;
+				font-size: 12px;
+			}
+
+			#head_container .r {
+				width: 30%;
+				float: right;
+			}
+
+			#head_container .r ul {
+				list-style-type: none;
+				padding: 10px;
+				margin: 0;
+				font-size: 13px;
+			}
+
+			#head_container .r ul li {
+				padding-bottom: 10px;
+			}
+
+			#head_container .r ul li .lable {
+				width: 20%;
+				float: left;
+				padding: 0;
+				margin: 0;
+				color: #CCCCCC;
+				font-weight: normal;
+			}
+
+			#head_container .r ul li .value {
+				width: 80%;
+				float: right;
+				text-align: right;
+				padding: 0;
+				margin: 0;
+				color: #e5e5e5;
+				font-weight: normal;
+			}
+
+			.up {
+				color: #00b48e;
+			}
+
+			.down {
+				color: #d14b64;
+			}
+
+			#footer-container {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				background: #121E3E;
+				z-index: 1;
+			}
+
+			#footer-container .item {
+				width: 50%;
+				float: left;
+				text-align: center;
+			}
+
+			#footer-container button {
+				width: 95%;
+				height: 35px;
+				line-height: 35px;
+				border: 0;
+				margin: 10px 0px;
+				border-radius: 2px;
+				color: #e5e5e5;
+				outline: none;
+			}
+
+			#footer-container .buy {
+				background: #00b48e;
+			}
+
+			#footer-container .sell {
+				background: #d14b64;
+			}
+
+			.tool {
+				color: #CCCCCC;
+				list-style: none;
+				margin: 0;
+				padding: 0 10px;
+				display: flex;
+				justify-content: space-between;
+				position: relative;
+				margin-bottom: 5px;
+			}
+
+			.tool .after {
+
+				position: absolute;
+				bottom: 0;
+				width: 20px;
+				left: 63px;
+				height: 2px;
+				/* margin-left: 11px; */
+				background-color: #6881FF;
+			}
+
+			.tool>li {
+				display: flex;
+				align-items: center;
+				font-size: 13px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				color: rgba(204, 204, 204, 1);
+				padding-bottom: 8px;
+			}
+
+			.tool>li.actived {
+				color: #6881FF;
+			}
+
+			.more-icon {
+				width: 9px;
+				height: 4px;
+				vertical-align: middle;
+				margin-left: 5px;
+			}
+
+			.time-list {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				top: 27px;
+				display: none;
+
+			}
+
+			.time-list>dl {
+				background-color: #1F2944;
+				display: flex;
+				margin: 0 auto;
+				height: 82px;
+				width: calc(100% - 30px);
+				flex-wrap: wrap;
+				font-size: 12px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				align-items: center;
+				color: rgba(204, 204, 204, 1);
+				border-radius: 5px;
+				z-index: 10;
+				position: relative;
+			}
+
+			.mask {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 1;
+			}
+
+			#deep_container {
+				display: none;
+			}
+
+			.tabs-header {
+				display: flex;
+				justify-content: space-around;
+				align-items: flex-end;
+				height: 55px;
+				padding-bottom: 10px;
+				font-size: 15px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				color: rgba(204, 204, 204, 1);
+			}
+
+			.tabs-lines {
+				height: 2px;
+				position: relative;
+				background-color: #000;
+			}
+
+			.tabs-lines>span {
+				position: absolute;
+				height: 100%;
+				width: 83px;
+				background-color: #6881FF;
+				left: 2%;
+			}
+
+			.tabs-bottom {
+				padding: 0 15px;
+
+			}
+
+
+
+			.tabs-bottom>.buy-sell>div {
+				display: flex;
+				justify-content: space-between;
+				flex-direction: row;
+			}
+
+			.tabs-bottom>div.show {
+				display: block;
+			}
+
+			.tabs-bottom>div {
+				display: none;
+
+			}
+
+			.buy-sell>div>div {
+				width: 48%;
+			}
+
+			.tabs-title {
+				padding-bottom: 15px;
+				border-bottom: 1px solid #CCCCCC;
+				margin-top: 30px;
+				font-size: 15px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				color: rgba(204, 204, 204, 1);
+				line-height: 15px;
+			}
+
+			.tabs-row {
+				height: 20px;
+				font-size: 12px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				color: #FFFFFF;
+				display: flex;
+				margin-top: 7px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				position: relative;
+			}
+
+			.buy>.tabs-row>span:last-child {
+				color: #02C0A0;
+			}
+
+			.sell>.tabs-row>span:first-child {
+				color: #EB375D;
+			}
+
+			.tabs-content>.tabs-row:first-child {
+				margin-top: 10px;
+			}
+
+			.sell>.tabs-row>.row-bg {
+				background-color: rgba(235, 55, 93, 0.08);
+				transform-origin: right;
+				transition: 0.5s;
+			}
+
+			.buy>.tabs-row>.row-bg {
+				background-color: rgba(2, 192, 160, 0.08);
+				transform-origin: left;
+				transition: 0.5s;
+			}
+
+			.row-bg {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
+
+			.table-head {
+				font-size: 10px;
+				height: 30px;
+				align-items: center;
+				font-family: PingFang-SC-Light;
+				font-weight: 300;
+				color: rgba(204, 204, 204, 1);
+				justify-content: space-between;
+				display: flex;
+			}
+
+			.table-head>span {
+				width: 25%;
+			}
+
+			,
+			.table-body>div>span:first-child,
+			.table-head>span:first-child {
+				text-align: left;
+			}
+
+			.table-body>div>span:last-child,
+			.table-head>span:last-child {
+				text-align: right;
+			}
+
+			.table-body>div {
+				height: 20px;
+				margin-top: 7px;
+				align-items: center;
+				justify-content: space-between;
+				display: flex;
+				font-size: 12px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				color: rgba(255, 255, 255, 1);
+			}
+
+			.table-body>div>span {
+				width: 25%;
+			}
+
+			.coin-name {
+				font-size: 15px;
+				font-family: PingFang-SC-Medium;
+				font-weight: 500;
+				color: rgba(255, 255, 255, 1);
+				margin-top: 10px;
+				margin-bottom: 28px;
+				line-height: 15px;
+				text-align: center;
+			}
+
+			.coin-info>div {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.coin-info>div>span {
+
+				font-size: 14px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				color: rgba(255, 255, 255, 1);
+				margin-bottom: 15px;
+			}
+
+			.coin-info>div>span:first-child {
+				color: #CCC;
+			}
+
+			.coin-info>div>span:last-child {
+				max-width: 180px;
+				word-break: break-all;
+			}
+
+			.coin-des-title {
+				font-size: 15px;
+				font-family: PingFang-SC-Medium;
+				font-weight: 500;
+				color: rgba(255, 255, 255, 1);
+			}
+
+			.coin-des-content {
+				font-size: 14px;
+				font-family: PingFang-SC-Regular;
+				font-weight: 400;
+				color: rgba(255, 255, 255, 1);
+				line-height: 24px;
+				margin: 0;
+			}
+
+			.head {
+				height: 45px;
+				align-items: center;
+				justify-content: space-between;
+				display: flex;
+				padding: 0 15px;
+			}
+
+			.head img {
+				width: 15px;
+				height: 15px;
+				vertical-align: middle;
+			}
+
+			.head>div:last-child {
+				display: flex;
+				align-items: center;
+			}
+
+			.head>div:nth-child(2) {
+				font-size: 18px;
+				font-family: PingFang-SC-Bold;
+				font-weight: bold;
+				color: rgba(255, 255, 255, 1);
+				position: absolute;
+				left: calc(50% - 94px /2);
+			}
+
+			.buy {
+				color: #EB375D;
+			}
+
+			.sell {
+				color: #4CDFB0;
+			}
+		</style>
+	</head>
+
+
+	<body>
+		<div id='page-head'>
+			<div class='statusbar statusBarHeight'></div>
+			<div class='head'>
+				<div class='back'>
+					<a href="http://apps.infinite-ex.com"><img src="./static/back.png" style='width: 8px;height: 15px;' ></a>
+					
+				</div>
+				<div id='title'></div>
+				<div>
+					<!-- 	<img src="./static/collection.png" style='width: 17px;height: 15px;margin-right: 15px;'>
+					<img src="./static/share.png"> -->
+				</div>
+			</div>
+		</div>
+		<div id="head_container">
+			<div class="l">
+				<h3 class=" clos-text"><text class='down'>---</text></h3>
+				<h5 class="cny-price"></h5>
+			</div>
+			<div class="r">
+				<ul>
+					<li>
+						<h5 class="lable">高</h5>
+						<h5 class="value height-text">---</h5>
+					<li>
+					<li>
+						<h5 class="lable">低</h5>
+						<h5 class="value low-text">---</h5>
+					<li>
+					<li>
+						<h5 class="lable">24H</h5>
+						<h5 class="value vou-text">---</h5>
+					<li>
+				</ul>
+			</div>
+		</div>
+		<div>
+			<ul class='tool' data-left='0'>
+				<li class='secInterval'>分时</li>
+				<li class='actived interval' data-inter='15'>
+					15分钟
+				</li>
+				<li>
+					<span class='interval interval-option' data-inter='60'>1小时</span>
+					<image src='./static/select-icon.png' class='more-icon'></image>
+
+					<div class='time-list'>
+						<div class='mask'></div>
+						<dl>
+
+							<dd class='interval' data-inter='1'>1分</dd>
+							<dd class='interval' data-inter='30'>30分</dd>
+							<dd class='interval' data-inter='60'>1小时</dd>
+							<dd class='interval' data-inter='D'>日K</dd>
+							<dd class='interval' data-inter='W'>周k</dd>
+							<!-- <dd class='interval'>月K</dd> -->
+						</dl>
+					</div>
+				</li>
+				<li class='deep'>深度</li>
+				<li>
+					<span>指标</span>
+					<input type="checkbox" id='changebox' />
+				</li>
+				<!-- <li class='full'>全屏</li> -->
+				<span class='after'></span>
+			</ul>
+		</div>
+		<div id="footer-container">
+			<div class="item"><button class="buy" id="buy">买入</button></div>
+			<div class="item"><button class="sell" id="sell">卖出</button></div>
+		</div>
+		<div style="clear: both;"></div>
+		<!-- 交易图  -->
+		<div id="tv_chart_container"></div>
+		<!-- 深度图 -->
+		<div id="deep_container" style='height:500px;'></div>
+		<!-- 黑线 -->
+		<div style='height: 10px;background-color: #000;margin-top: 15px;'></div>
+		<!-- 底部信息 -->
+		<div>
+			<!-- 头部导航 -->
+			<div class='tabs-header'>
+				<span data-pre='2%'>买卖盘</span>
+				<span data-pre='35%'>最新成交</span>
+				<span data-pre='70%'>币种信息</span>
+			</div>
+			<!-- 线 -->
+			<div class='tabs-lines'>
+				<span></span>
+			</div>
+			<!-- tabs 内容 -->
+			<div class='tabs-bottom'>
+				<!-- 买卖盘 -->
+				<div class='buy-sell show'>
+					<div>
+						<!-- 买 -->
+						<div>
+							<div class='tabs-title'>买</div>
+							<div class='buy tabs-content'>
+								<!-- <div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div> -->
+							</div>
+						</div>
+						<!--卖  -->
+						<div>
+							<div class='tabs-title'>卖</div>
+							<div class='sell tabs-content'>
+								<!-- <div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div>
+								<div class='tabs-row'>
+									<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+									<span>10574.72</span>
+									<span>0.403780</span>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 最新成交 -->
+				<div>
+					<div class='table-head'>
+						<span>时间</span>
+						<span>方向</span>
+						<span>价格</span>
+						<span>数量</span>
+					</div>
+					<div class='table-body'>
+						<!-- <div>
+							<span>17:19:12</span>
+							<span>买入</span>
+							<span>10578.06</span>
+							<span>0.009242</span>
+						</div> -->
+					</div>
+				</div>
+				<!-- 币种信息 -->
+				<div class='coins'>
+					<!-- <div class='coin-name'>Enterprise Operation System (EOS)</div>
+					<div class='coin-info'>
+						<div>
+							<span>发行时间</span>
+							<span>2019/7/12</span>
+						</div>
+						<div>
+							<span>发行总量</span>
+							<span>10亿</span>
+						</div>
+						<div>
+							<span>流通总量</span>
+							<span>10亿</span>
+						</div>
+						<div>
+							<span>众筹价格</span>
+							<span>--</span>
+						</div>
+						<div>
+							<span>白皮书</span>
+							<span>http://github.com/EOSIO/Documentation/blob/master</span>
+						</div>
+						<div>
+							<span>官网</span>
+							<span>http://github.com/EOSIO</span>
+						</div>
+						<div>
+							<span>区块查询</span>
+							<span>http://github.com/EOSIO</span>
+						</div>
+					</div>
+					<div class='coin-des'>
+						<div class='coin-des-title'>简介</div>
+						<p class='coin-des-content'>EOS，可以理解为Enterprise Operation
+							System，即为商用分布式应用设计的一款区块链操作系统。EOS是引入的一种新的区块链架构，旨在实现分布式应用的性能扩展。注意，它并不是像比特币和以太坊那样的货币，而是基于EOS软件项目之上发布的代币，被称为区块链3.0</p>
+					</div> -->
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
+
+
+		<script type="text/javascript">
+			$('.back').click(function(){
+				history.back();
+			})
+			// 最新成交 买卖盘
+			let myWork = new Worker('./lib/work.js', {
+				name: GetQueryString('symbol')
+			});
+			myWork.onmessage = function(e) {
+
+				// 买卖盘
+				var info = JSON.parse(e.data[0]).data.dealRecordList;
+				
+				var tableLi = '';
+				for (var i = 0; i < 15; i++) {
+
+
+					tableLi +=
+						`
+					<div>
+						<span>${info[i].timeFormat.split(" ")[1]}</span>
+						<span class=${info[i].type==2? 'buy':'sell'}>${info[i].type==1? '买入':'卖出'}</span>
+						<span>${info[i].amount}</span>
+					</div>
+					
+					`
+
+				}
+
+				$('.table-body').html(tableLi)
+				var sellinfo=JSON.parse(e.data[2]).data.sellList;
+				var buyinfo=JSON.parse(e.data[2]).data.buyList;
+				var sellLi ='',buyli='',dataLength='';
+				dataLength=sellinfo.length>buyinfo.length?buyinfo.length:sellinfo.length;
+				for(var i =0;i<dataLength;i++){
+					sellLi+=`
+						<div class='tabs-row'>
+							<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+							<span>${sellinfo[i].totalAmount}</span>
+						</div>`
+				}
+				for(var i =0;i<dataLength;i++){
+					buyli+=`
+						<div class='tabs-row'>
+							<div class='row-bg' style='transform:scaleX(${Math.random().toFixed(1)})'></div>
+							<span>${buyinfo[i].totalAmount}</span>
+						</div>`
+				}
+				
+				
+				$('.sell.tabs-content').html(buyli)
+				$('.buy.tabs-content').html(sellLi)
+
+
+				var info = JSON.parse(e.data[1]).data;
+				
+				var coinName = GetQueryString('symbol').split('/')[0]
+				var coinInfo =
+					`
+				<div class='coin-name'>${info.fullName} (${coinName})</div>
+				<div class='coin-info'>
+					<div>
+						<span>发行时间</span>
+						<span>${info.createTime}</span>
+					</div>
+					<div>
+						<span>发行总量</span>
+						<span>${info.totalAmount}</span>
+					</div>
+					<div>
+						<span>流通总量</span>
+						<span>${info.turnoverAmount}</span>
+					</div>
+					<div>
+						<span>众筹价格</span>
+						<span>${info.crowdPrice==null? '--':info.crowdPrice}</span>
+					</div>
+					<div>
+						<span>白皮书</span>
+						<span>${info.whiteBook}</span>
+					</div>
+					<div>
+						<span>官网</span>
+						<span>${info.officialWebsite}</span>
+					</div>
+					<div>
+						<span>区块查询</span>
+						<span>${info.blockQuery}</span>
+					</div>
+				</div>
+				<div class='coin-des'>
+					<div class='coin-des-title'>简介</div>
+					<p class='coin-des-content'>${info.simpleIntroduction}</p>
+				</div>
+				`
+				$('.coins').html(coinInfo)
+
+				// 高低价格
+				var info = JSON.parse(e.data[3]);
+				$('.clos-text').html(`<text class="${info.riseAndfall>0? 'up':'down'}">${info.close}</text>`);
+				$('.height-text').html(info.close);
+				$('.low-text').html(info.low);
+				$('.vou-text').html(info.volume);
+				$('.cny-price').html(
+					`≈${(info.motherRateForCNY*info.close).toFixed(2)}CNY <i class="change ${info.riseAndfall>0? 'up':'down'}">${info.riseAndfall}%</i>`
+				)
+			}
+			myWork.postMessage('init');
+			// 页面关闭 关闭线程
+
+
+			function GetQueryString(name) { //获取url 参数方法
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			}
+			$('.back').click(function() {
+				uni.navigateBack({
+					delta: 1
+				})
+			})
+			// 设置标题
+			$('#title').html(GetQueryString('symbol'))
+			// 获取状态栏高度 并设置
+			var statusBarHeight = GetQueryString('statusBarHeight');
+			$('.statusbar').css('height', statusBarHeight)
+			// 初始化选卡位置
+			var left = $('.tool li:eq(1)').offset().left;
+			var domWidth = $('.tool li:eq(1)').width();
+			$('.tool .after').animate({
+				left: left + (domWidth / 2) - (domWidth / 4),
+				width: domWidth / 2
+			});
+
+			function getDeepData(callBack) {
+				$.ajax({
+					type: 'GET',
+					url: 'http://103.214.146.192:81/quotations/getBuySellData',
+					contentType: 'application/x-www-form-urlencoded',
+					data: {
+						childCoinName: GetQueryString('symbol').split('/')[0],
+						motherCoinName: GetQueryString('symbol').split('/')[1]
+					},
+					dataType: 'json',
+					success: function(res) {
+						callBack(res.data);
+
+					},
+
+				})
+
+			}
+
+			// echats 初始化函数
+			function initEcharts() {
+				$('#deep_container').css('height', GetQueryString('height') / 1.7);
+				$('#deep_container').show();
+				if (myChart) {
+
+					return;
+				}
+
+				var myChart = echarts.init(document.getElementById('deep_container'));
+				// setTimeout(function() {
+				getDeepData(function(data) {
+					var asks = data.asks;
+					var bids = data.bids;
+					var xAxisData = [],
+						seriesData = [],
+						seriesData1 = [];
+
+					for (var i = 0; i < asks.length; i++) {
+						xAxisData.push(asks[i][0]);
+						seriesData.push(asks[i][1]);
+						seriesData1.push('')
+					}
+					for (var i = 0; i < bids.length; i++) {
+						xAxisData.push(bids[i][0]);
+						seriesData.push('');
+						seriesData1.push(bids[i][1])
+					}
+
+
+					var option = {
+						legend: {
+							selectedMode: false,
+							data: [{
+
+								name: '买入',
+								// 强制设置图形为圆。
+								icon: 'rect',
+								// 设置文本为红色
+								textStyle: {
+									color: '#02c0a0'
+								}
+							}, {
+
+								name: '买出',
+								// 强制设置图形为圆。
+								icon: 'rect',
+								// 设置文本为红色
+								textStyle: {
+									color: '#eb375d'
+								}
+							}]
+						},
+						xAxis: {
+							type: 'category',
+							boundaryGap: false,
+
+							data: xAxisData,
+							axisLabel: {
+								textStyle: {
+									color: '#AAAAAA', //坐标值得具体的颜色
+
+								}
+							}
+						},
+						yAxis: {
+							type: 'value',
+							show: false
+						},
+						series: [{
+								symbol: "none",
+								name: '买入',
+								data: seriesData,
+								type: 'line',
+								color: '#02c0a0',
+								areaStyle: {
+									color: '#02c0a0',
+									opacity: 0.36,
+
+								}
+							},
+							{
+								symbol: "none",
+								name: '买出',
+								data: seriesData1,
+								type: 'line',
+								color: '#eb375d',
+								areaStyle: {
+									color: '#eb375d',
+									opacity: 0.36,
+
+								}
+							}
+						]
+					};
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+
+				});
+				// }, 1500);
+
+
+
+
+			}
+
+			$('.tabs-header span').click(function() { //点击切换底部状态(买卖盘，最新成交，币种信息)
+				var pre = $(this).attr('data-pre');
+				$('.tabs-lines span').animate({
+					left: pre
+				})
+				var index = $(this).index();
+				$('.tabs-bottom>div').siblings().removeClass('show')
+
+				$('.tabs-bottom>div').eq(index).addClass('show')
+
+
+			})
+
+			$('.deep').click(function() { //点击出现深度图
+				$('#tv_chart_container').hide();
+				initEcharts();
+			})
+
+
+			$('.time-list dl').click(function(e) { //阻止冒泡
+				if (e && e.stopPropagation) {
+					// 因此它支持W3C的stopPropagation()方法
+					e.stopPropagation();
+				} else {
+					//否则，我们需要使用IE的方式来取消事件冒泡
+					window.event.cancelBubble = true;
+					return false;
+				}
+			})
+
+			$('.mask').click(function(e) {
+				$('.time-list').hide();
+				//如果提供了事件对象，则这是一个非IE浏览器
+				if (e && e.stopPropagation) {
+					// 因此它支持W3C的stopPropagation()方法
+					e.stopPropagation();
+				} else {
+					//否则，我们需要使用IE的方式来取消事件冒泡
+					window.event.cancelBubble = true;
+					return false;
+				}
+			})
+			$('.more-icon').click(function(e) { //点击出现时间列表
+				var nowDis = $('.time-list').css('display');
+				if (nowDis == 'none') {
+					$('.time-list').show();
+				} else {
+					$('.time-list').hide();
+				}
+
+				//如果提供了事件对象，则这是一个非IE浏览器
+				if (e && e.stopPropagation) {
+					// 因此它支持W3C的stopPropagation()方法
+					e.stopPropagation();
+				} else {
+					//否则，我们需要使用IE的方式来取消事件冒泡
+					window.event.cancelBubble = true;
+					return false;
+				}
+			})
+
+			$('.tool li:lt(4)').click(function(e) { //点击切换 actived 状态
+				var left = $(this).offset().left;
+				var index = $(this).index();
+				if (index <= 2) {
+					$('#tv_chart_container').show();
+					$('#deep_container').hide();
+				}
+				$(this).siblings().removeClass('actived');
+				$(this).addClass('actived');
+				var domWidth = $(this).width();
+
+				$('.tool .after').width(domWidth / 2);
+				$('.tool .after').animate({
+					left: left + (domWidth / 2) - (domWidth / 4)
+				});
+
+			})
+			$('.full').click(function() {
+
+				if (document.body.clientWidth > document.body.clientHeight) {
+					plus.screen.lockOrientation("portrait-primary");
+				} else {
+					$('html body').css('padding-left', statusBarHeight + 'px')
+					plus.screen.lockOrientation("landscape-primary")
+				}
+
+			})
+
+			document.getElementById("buy").addEventListener("click", function() {
+				localStorage.setItem('market', JSON.stringify({
+					symbol: symbol,
+					type: 1
+				}));
+
+				setTimeout(() => {
+					location.href = 'http://apps.infinite-ex.com/pages/trade/main'
+				}, 500);
+			});
+			document.getElementById("sell").addEventListener("click", function() {
+				localStorage.setItem('market', JSON.stringify({
+					symbol: symbol,
+					type: 1
+				}));
+
+				setTimeout(() => {
+					location.href = 'http://apps.infinite-ex.com/pages/trade/main'
+				}, 500);
+			});
+
+
+
+			var symbol = GetQueryString("symbol"); //获取参数 并设置title
+			document.title = symbol;
+			var kline = null;
+		</script>
+
+	</body>
+
+</html>
