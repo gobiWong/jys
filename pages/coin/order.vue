@@ -11,7 +11,7 @@
 			</view>
 		</view>
 
-		<!-- 充币 -->
+		<!-- 充币 测试提交-->
 		<view class="page-container" v-if="typeIndex == 1 ? true : false">
 			<view class="record-list">
 				<!-- 记录列表 -->
