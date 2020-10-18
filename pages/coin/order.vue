@@ -33,6 +33,7 @@
 				</view>
 			</view>
 		</view>
+		
 		<!-- 提币 -->
 		<view class="page-container" v-if="typeIndex == 2 ? true : false">
 			<view class="record-list">
