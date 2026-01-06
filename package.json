@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dcloudio/uni-ui": "0.0.6",
+    "@dcloudio/uni-ui": "1.5.11",
     "echarts": "^4.2.1",
     "mpvue-echarts": "^0.3.1",
     "vue-clipboard2": "^0.3.0",
